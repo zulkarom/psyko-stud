@@ -1,1 +1,1 @@
-# psyko-stud
+git-psycho
