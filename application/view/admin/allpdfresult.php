@@ -99,7 +99,7 @@ $html ='<br /><br /><br /><table border="1" cellpadding="5" width="620">
 	<thead>
 	<tr >
 		<th width="5%"><strong>#</strong></th>
-		<th width="'.$w2.'%"><strong>NAMA</strong><br/><i>(NRIC)</i></th>
+		<th width="'.$w2.'%"><strong>NAMA</strong><br/><i>(MATRIC-PROGRAM)</i></th>
 		';
 			
 foreach($this->gcat as $i => $grow){
@@ -117,7 +117,7 @@ $x=1;
 foreach ($this->users as $user) {
 	$html .= '<tr nobr="true">
 		<td width="5%">'. $x.'. </td>
-		<td width="'.$w2.'%">'. $user->can_name .'<br /><i>('. $user->user_name .')</i></td>
+		<td width="'.$w2.'%">'. $user->can_name .'<br /><i>('. $user->user_name .' - '. $user->program .')</i></td>
 		';
 
 		$set_sort = TestModel::getGradeCat();

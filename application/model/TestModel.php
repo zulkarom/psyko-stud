@@ -317,12 +317,17 @@ class TestModel
 		
 	}
 	
-	private static function filterResultAnswers($batch=0,$zone=0,$status=9,$can=0){
+	private static function filterResultAnswers($batch=0,$zone=0,$status=9,$can=0, $program = 0){
 		if($batch==0){
 			$bb = UserModel::getShowingBatch();
 			$where_batch = "AND a.can_batch = ".$bb;
 		}else{
 			$where_batch ="AND a.can_batch = ".$batch;
+		}
+		if($program==0){
+			$where_program = "";
+		}else{
+			$where_program ="AND a.program = ".$program;
 		}
 		if($zone==0){
 			$where_zone ="";
@@ -340,7 +345,7 @@ class TestModel
 			$where_can ="AND a.user_id = ".$can;
 		}
 		
-		return $where_batch." ".$where_zone." ".$where_status." ".$where_can ;
+		return $where_batch." ".$where_zone." ".$where_status." ".$where_can." ".$where_program ;
 	}
 	
 	
@@ -356,7 +361,7 @@ class TestModel
 	
 	private static function columResultAnswers(){
 		$result = self::getGradeCat();
-		$colum = "a.user_id, a.user_name, a.can_name, a.department, a.can_zone, a.can_batch,  c.bat_text ,
+		$colum = "p.program_abbr as program, a.user_id, a.user_name, a.can_name, a.department, a.can_zone, a.can_batch,  c.bat_text ,
 a.answer_status, a.overall_status, a.finished_at, ";
 		$c=1;
 		foreach($result as $row){
@@ -376,7 +381,7 @@ a.answer_status, a.overall_status, a.finished_at, ";
 		return $colum;
 	}
 	
-	public static function getAllCandidatesResult($batch=0,$zone=0,$status=9,$can=0, $sorting = 1)
+	public static function getAllCandidatesResult($batch=0,$zone=0,$status=9,$can=0, $sorting = 1, $program = 0)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 		if($sorting == 1){
@@ -385,7 +390,7 @@ a.answer_status, a.overall_status, a.finished_at, ";
 			$sort  = 'ORDER BY a.finished_at DESC';
 		}
 		
-		$filter = self::filterResultAnswers($batch,$zone,$status,$can);
+		$filter = self::filterResultAnswers($batch,$zone,$status,$can, $program);
 		$colum = self::columResultAnswers();
         $sql = "SELECT  ".$colum."
 		FROM users as a
@@ -394,6 +399,8 @@ a.answer_status, a.overall_status, a.finished_at, ";
 		ON c.bat_id = a.can_batch
 		INNER JOIN psy_answers as d
 		ON a.user_id = d.can_id
+		INNER JOIN psy_program as p
+		ON a.program = p.id
 		WHERE a.user_deleted = 0
 		".$filter."
 		".$sort."
@@ -413,6 +420,7 @@ a.answer_status, a.overall_status, a.finished_at, ";
 			$all_users_profiles[$user->user_id]->can_name = $user->can_name;
 			$all_users_profiles[$user->user_id]->department = $user->department;
 			$all_users_profiles[$user->user_id]->can_batch = $user->bat_text;
+			$all_users_profiles[$user->user_id]->program = $user->program;
 			if($user->overall_status==0){
 				$status="Not Started";
 			}else if($user->overall_status==1){

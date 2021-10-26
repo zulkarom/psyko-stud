@@ -17,7 +17,9 @@ class IndexController extends Controller
     public function index()
     {
         $this->View->render('login/index', array(
-			'open'=>UserModel::getOpenInterview()
+			'open'=> UserModel::getOpenInterview(),
+			'programs' => UserModel::getPrograms(),
+			
 		));
     }
 	 public function en()

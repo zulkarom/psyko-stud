@@ -136,6 +136,17 @@ class UserModel
         // fetchAll() is the PDO method that gets all result rows
         return $query->fetchAll();
     }
+	
+	public static function getPrograms()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "SELECT * FROM psy_program
+		";
+        $query = $database->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+	
 	public static function getAllCandidates($batch=0)
     {
 		if($batch==0){
@@ -145,10 +156,12 @@ class UserModel
         $database = DatabaseFactory::getFactory()->getConnection();
 		
         $sql = "SELECT a.user_id, a.user_name, a.answer_status, a.finished_at,
-		a.user_deleted, a.can_name, a.can_zone, a.can_batch, c.bat_text 
+		a.user_deleted, a.can_name, a.can_zone, a.can_batch, c.bat_text, p.program_abbr as program
 		FROM users as a
 		INNER JOIN psy_batch as c
 		ON c.bat_id = a.can_batch
+		INNER JOIN psy_program as p
+		ON p.id = a.program
 		WHERE a.user_deleted = 0
 		AND a.can_batch = :batch
 		ORDER BY a.overall_status DESC, a.finished_at DESC
@@ -170,6 +183,7 @@ class UserModel
 			$all_users_profiles[$user->user_id]->can_zone_id = $user->can_zone;
 			$all_users_profiles[$user->user_id]->can_batch_id = $user->can_batch;
 			$all_users_profiles[$user->user_id]->finished_at = $user->finished_at;
+			$all_users_profiles[$user->user_id]->program = $user->program;
 			if($user->answer_status==0){
 				$status="Not Started";
 			}else if($user->answer_status==1){
@@ -577,12 +591,14 @@ class UserModel
     {
 		//echo ""
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "SELECT a.user_id, a.user_name, a.matric_no, a.department, a.program, a.can_zone, a.can_name, 
-a.can_batch, a.answer_status, a.answer_last_saved,a.answer_status2, a.overall_status, 
-a.finished_at, a.answer_last_saved2, a.question_last_saved, c.bat_text
+        $sql = "SELECT a.user_id, a.user_name, a.matric_no, a.department, a.can_zone, a.can_name, 
+		a.can_batch, a.answer_status, a.answer_last_saved,a.answer_status2, a.overall_status, 
+		a.finished_at, a.answer_last_saved2, a.question_last_saved, c.bat_text, p.program_abbr as program
 		FROM users as a
 		INNER JOIN psy_batch as c
 		ON c.bat_id = a.can_batch
+		INNER JOIN psy_program as p
+		ON p.id = a.program
 		WHERE user_id = :user
 		LIMIT 1";
         $query = $database->prepare($sql);

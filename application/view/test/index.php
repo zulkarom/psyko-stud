@@ -6,8 +6,8 @@
 	</div>
 	<br />
 	<div class="form-group"><strong>NAMA/<i>Name</i>:</strong> <?php echo $this->user->can_name ;?><br />
-	<strong>NRIC/PASSPORT NO:</strong>  <?php echo $this->user->user_name ;?><br />
-	<strong>DEPARTMENT:</strong>  <?php echo $this->user->department ;?></div>
+	<strong>MATRIC NO:</strong>  <?php echo $this->user->user_name ;?><br />
+	<strong>PROGRAM:</strong>  <?php echo $this->user->program ;?></div>
 	
 	<div class="form-group">
 	<a href='<?php echo Config::get('URL'); ?>login/logout'>LOGOUT</a>

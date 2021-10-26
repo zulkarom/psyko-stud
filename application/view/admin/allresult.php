@@ -9,18 +9,14 @@
 		
 		<div class="col-md-2">
 			<div class="form-group">
-			<select id="batchsel" name="batchsel" class="form-control">
+			<select id="programsel" name="programsel" class="form-control">
+				<option value="0">Select Program</option>
 				<?php
-				foreach($this->batch as $bat){
-					if($this->sbatch ==0){
-						if($this->dbatch == $bat->bat_id)
+				foreach($this->programs as $program){
+					if($this->sprogram == $program->id)
 						{$s="selected";}else{$s="";}
-					}else{
-						if($this->sbatch == $bat->bat_id)
-						{$s="selected";}else{$s="";}
-					}
-					echo "<option value='".$bat->bat_id ."' ".$s.">";
-					echo $bat->bat_text;
+					echo "<option value='".$program->id ."' ".$s.">";
+					echo $program->program_abbr;
 					echo "</option>";
 				}
 				?>
@@ -75,8 +71,8 @@
                 <thead>
                 <tr>
                     <th>No. </th>
-                    <th>Full Name<i>(NRIC)</i></th>
-                    <th>Department / Batch</th>
+                    <th>Full Name<i>(Matric No.)</i></th>
+                    <th>Program</th>
 
 					<th>Status</th>
 					<th>Submission Time</th>
@@ -99,7 +95,7 @@
                         <td><?php echo $i; ?>. </td>
                         
                         <td><?php echo $user->can_name; ?><br/><i>(<?php echo $user->user_name; ?>)</i></td>
-                        <td><?php echo $user->department; ?><br /><?php echo $user->can_batch; ?></td>
+                        <td><?php echo $user->program; ?></td>
 						<td><?php echo $user->status; ?></td>
 						
 						<td><?php 
@@ -178,12 +174,13 @@ $(document).ready(function(){
 	modal.find('.modal-body').css("overflow", "auto");
 	});
 	
-	$("#batchsel, #zonesel, #statussel, #sortingsel").change(function(){
+	$("#batchsel, #zonesel, #statussel, #sortingsel, #programsel").change(function(){
 		var batch = $("#batchsel").val();
 		var zone = $("#zonesel").val();
 		var status = $("#statussel").val();
 		var sorting = $("#sortingsel").val();
-		location.href='<?php echo Config::get('URL');?>admin/allresult/'+batch+'/'+zone+'/'+status+'/0/'+sorting;
+		var program = $("#programsel").val();
+		location.href='<?php echo Config::get('URL');?>admin/allresult/'+batch+'/'+zone+'/'+status+'/0/'+sorting+'/'+program ;
 	});
 	
 });

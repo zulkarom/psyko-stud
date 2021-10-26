@@ -45,7 +45,8 @@
                 <tr>
 					<th>No. </th>
 					<th>Full Name</th>
-                    <th>Username (NRIC)</th>
+                    <th>Matric No.</th>
+					<th>Program</th>
 					<th>Status</th>
 					<th>Submission Time</th>
 
@@ -65,6 +66,8 @@
                         <td ><a href="#" onclick="return false" idx="<?php echo $user->user_id; ?>" data-toggle='modal' data-target='#myModal6'><span id="tfullname-<?php echo $user->user_id;?>"><?php echo $user->can_name; ?></span> <span class="glyphicon glyphicon-pencil"></span></a></td>
 						
                         <td id="tusername-<?php echo $user->user_id;?>"><?= $user->user_name; ?></td>
+						
+						<td><?= $user->program; ?></td>
 						
 						<td><span id="tstatus-<?php echo $user->user_id;?>"><?= $user->status; ?></span></td>
 						

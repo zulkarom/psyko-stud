@@ -16,7 +16,7 @@ class RegistrationModel
 	 public static function registerNewCandidate(){
 		$full_name = strip_tags(Request::post('fullname'));
 		$user_name = strip_tags(Request::post('username'));
-		$department = Request::post('department');
+		$program = Request::post('program');
 		
 		$user_name  = str_replace('-', '', $user_name);
 
@@ -43,7 +43,7 @@ class RegistrationModel
 		
 		$batch = self:: getDefaultBatch();
 		
-		if (self::writeNewCandidateToDatabase($full_name,$user_name, $department, $batch)) {
+		if (self::writeNewCandidateToDatabase($full_name,$user_name, $program, $batch)) {
 			Session::add('feedback_positive', 'Registration Successful.');
 			
 		}else{
@@ -283,16 +283,16 @@ class RegistrationModel
 		return false;
 	}
 	
-	public static function writeNewCandidateToDatabase($full_name,$user_name, $department, $batch)
+	public static function writeNewCandidateToDatabase($full_name,$user_name, $program, $batch)
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 		// write new users data into database
-		$sql = "INSERT INTO users (can_name, user_name, department, can_batch)
-                    VALUES (:name, :user_name, :zone, :batch)";
+		$sql = "INSERT INTO users (can_name, user_name, program, can_batch)
+                    VALUES (:name, :user_name, :program, :batch)";
 		$query = $database->prepare($sql);
 		$query->execute(array(':name' => $full_name,
 							':user_name' => $user_name,
-		                      ':zone' => $department,
+		                      ':program' => $program,
 		                      ':batch' => $batch
 							  ));
 		$count =  $query->rowCount();

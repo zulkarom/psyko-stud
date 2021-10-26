@@ -57,14 +57,16 @@ class AdminController extends Controller
 				
 	    );
     }
-	public function allresult($batch=0,$zone=0,$status=9, $can=0, $sorting = 1)
+	public function allresult($batch=0,$zone=0,$status=9, $can=0, $sorting = 1, $program = 0)
     {
 	    $this->View->renderAdmin('admin/allresult', array(
-			    'users' => TestModel::getAllCandidatesResult($batch, $zone, $status, $can, $sorting),
+			    'users' => TestModel::getAllCandidatesResult($batch, $zone, $status, $can, $sorting, $program),
 				'gcat'=>TestModel::getGradeCat(),
 				'batch'=>UserModel::getAllBatch(),
 				'zone'=>UserModel::getAllZone(),
+				'programs'=>UserModel::getPrograms(),
 				'sbatch'=>$batch,
+				'sprogram'=>$program,
 				'szone'=>$zone,
 				'sstatus'=>$status,
 				'ssorting'=>$sorting,

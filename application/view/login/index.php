@@ -32,7 +32,7 @@
 
 				
 				<div class="form-group">
-				<label for="user_name">NRIC/PASSPORT NO.:</label>
+				<label for="user_name">NO. MATRIK / MATRIC NO.:</label>
 				
 				<input type="text" name="user_name"  class="form-control input-lg" required />
 				</div>
@@ -69,15 +69,26 @@
 
 				
 				<div class="form-group">
-				<label for="user_name">NRIC/PASSPORT NO.:</label>
+				<label for="user_name">NO. MATRIK / MATRIC NO.:</label>
 				
 				<input type="text" name="username"  class="form-control input-lg" required />
 				</div>
 				
 				<div class="form-group">
-				<label for="user_name">JABATAN / DEPARTMENT:</label>
+				<label for="user_name">PROGRAM / PROGRAMME:</label>
 				
-				<input type="text" name="department"  class="form-control input-lg" required />
+				<select class="form-control input-lg" name="program" required>
+				<option></option>
+					<?php 
+					foreach($this->programs as $program){
+						echo '<option value="'.$program->id.'">'.$program->program_abbr.'</option>';
+					}
+					
+					?>
+					
+				
+				</select>
+				
 				</div>
 				
        
